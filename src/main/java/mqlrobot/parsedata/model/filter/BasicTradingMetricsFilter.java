@@ -11,6 +11,7 @@ public class BasicTradingMetricsFilter
 {
     private double profitAtLeast;
     private double equityDdPercentageLessThan;
+    private boolean enabled = false;
 
     public BasicTradingMetricsFilter()
     {

@@ -21,7 +21,6 @@ public class DataController
     private DataManager dataManager;
 
     @PostMapping("/newExcel")
-//    @ResponseBody
     public void storeDataFromNewExcelFile(@RequestParam("file") MultipartFile multipartFile) throws IOException
     {
         InputStream inputStream = new ByteArrayInputStream(multipartFile.getBytes());
@@ -33,6 +32,14 @@ public class DataController
         }
 
         dataManager.storePositiveTradingMetricsResultsToDiskFromFile(path);
+    }
+
+    @PostMapping("/fromFolder")
+    public void storeDataFromFolder() throws IOException
+    {
+        String path = Paths.get("tmp").toAbsolutePath().toString();
+
+        dataManager.processExcelFiles(path);
     }
 
     @GetMapping("/filteredData")

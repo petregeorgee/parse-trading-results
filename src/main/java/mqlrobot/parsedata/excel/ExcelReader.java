@@ -1,9 +1,11 @@
 package mqlrobot.parsedata.excel;
 
 import mqlrobot.parsedata.model.TradingMetrics;
+import mqlrobot.parsedata.utils.Utils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -19,6 +21,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class ExcelReader {
+
+    @Autowired
+    private Utils utils;
 
     public List<TradingMetrics> getTradingMetricsFromFile(String filePath) {
         List<TradingMetrics> tradingMetricsList = new ArrayList<>();
@@ -68,7 +73,7 @@ public class ExcelReader {
             e.printStackTrace();
         }
 
-        deleteAfterFiveSeconds(filePath);
+        utils.deleteAfterFiveSeconds(filePath);
 
         return tradingMetricsList;
     }
@@ -126,20 +131,6 @@ public class ExcelReader {
             default:
                 // Ignore if the cellIndex is out of bounds
         }
-    }
-
-    private void deleteAfterFiveSeconds(String path)
-    {
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.schedule(() -> {
-            try
-            {
-                Files.deleteIfExists(Path.of(path));
-            } catch (IOException e)
-            {
-
-            }
-        },5,  TimeUnit.SECONDS);
     }
 }
 
