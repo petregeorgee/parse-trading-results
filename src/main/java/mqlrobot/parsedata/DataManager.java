@@ -60,13 +60,13 @@ public class DataManager
             return;
         }
 
+        System.out.println("Start scanning the folder: "+ folderPath);
+
         for (File file : files)
         {
             if (file.isFile() && file.getName().endsWith(".xlsx"))
             {
-                System.out.println("Start scanning the folder: "+ folderPath);
                 storePositiveTradingMetricsResultsToDiskFromFile(file.getAbsolutePath());
-                utils.deleteAfterFiveSeconds(file.getAbsolutePath());
             }
         }
     }
