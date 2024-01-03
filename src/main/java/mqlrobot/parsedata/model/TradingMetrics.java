@@ -63,11 +63,9 @@ public class TradingMetrics {
     @JsonProperty("Max_Open_Close_All")
     private boolean maxOpenCloseAll;
 
-    // Constructors, getters, and setters
 
-    // Constructors
     public TradingMetrics() {
-        // Default constructor
+
     }
 
     public TradingMetrics(double pass, double result, double profit, double expectedPayoff,

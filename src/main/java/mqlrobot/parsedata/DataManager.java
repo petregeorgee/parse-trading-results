@@ -73,77 +73,77 @@ public class DataManager
 
     private List<Predicate<RelevantTradingMetrics>> getAdvancedFilterPredicates()
     {
-        List<Predicate<RelevantTradingMetrics>> list = new ArrayList<>();
+        List<Predicate<RelevantTradingMetrics>> advancedPredicates = new ArrayList<>();
 
         if (advancedFilter.getProfitMin() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getProfit() >= advancedFilter.getProfitMin());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getProfit() >= advancedFilter.getProfitMin());
         }
         if (advancedFilter.getProfitMax() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getProfit() < advancedFilter.getProfitMax());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getProfit() < advancedFilter.getProfitMax());
         }
 
         if (advancedFilter.getEquityDdPercentageMin() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getEquityDdPercentage() >= advancedFilter.getEquityDdPercentageMin());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getEquityDdPercentage() >= advancedFilter.getEquityDdPercentageMin());
         }
         if (advancedFilter.getEquityDdPercentageMax() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getEquityDdPercentage() < advancedFilter.getEquityDdPercentageMax());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getEquityDdPercentage() < advancedFilter.getEquityDdPercentageMax());
         }
 
         if (advancedFilter.getTradesMin() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getTrades() >= advancedFilter.getTradesMin());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getTrades() >= advancedFilter.getTradesMin());
         }
         if (advancedFilter.getTradesMax() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getTrades() < advancedFilter.getTradesMax());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getTrades() < advancedFilter.getTradesMax());
         }
 
         if (advancedFilter.getDistTpbTpsMin() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getDistTpbTps() >= advancedFilter.getDistTpbTpsMin());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getDistTpbTps() >= advancedFilter.getDistTpbTpsMin());
         }
         if (advancedFilter.getDistTpbTpsMax() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getDistTpbTps() < advancedFilter.getDistTpbTpsMax());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getDistTpbTps() < advancedFilter.getDistTpbTpsMax());
         }
 
         if (advancedFilter.getResultMin() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getResult() >= advancedFilter.getResultMin());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getResult() >= advancedFilter.getResultMin());
         }
         if (advancedFilter.getResultMax() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getResult() < advancedFilter.getResultMax());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getResult() < advancedFilter.getResultMax());
         }
 
         if (advancedFilter.getMaxOpenPositionsMin() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getMaxOpenPositions() >= advancedFilter.getMaxOpenPositionsMin());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getMaxOpenPositions() >= advancedFilter.getMaxOpenPositionsMin());
         }
         if (advancedFilter.getMaxOpenPositionsMax() != null)
         {
-            list.add(tradingMetrics1 -> tradingMetrics1.getMaxOpenPositions() < advancedFilter.getMaxOpenPositionsMax());
+            advancedPredicates.add(tradingMetrics1 -> tradingMetrics1.getMaxOpenPositions() < advancedFilter.getMaxOpenPositionsMax());
         }
 
-        return list;
+        return advancedPredicates;
     }
 
 
     private List<Predicate<RelevantTradingMetrics>> getBasicFilterPredicates()
     {
-        List<Predicate<RelevantTradingMetrics>> list = new ArrayList<>();
+        List<Predicate<RelevantTradingMetrics>> basicPredicates = new ArrayList<>();
 
         Predicate<RelevantTradingMetrics> positiveProfit = tradingMetrics1 -> tradingMetrics1.getProfit() > basicFilter.getProfitAtLeast();
-        list.add(positiveProfit);
+        basicPredicates.add(positiveProfit);
 
         Predicate<RelevantTradingMetrics> notSoRisckyDrawDown = tradingMetrics1 -> tradingMetrics1.getEquityDdPercentage() < basicFilter.getEquityDdPercentageLessThan();
-        list.add(notSoRisckyDrawDown);
+        basicPredicates.add(notSoRisckyDrawDown);
 
-        return list;
+        return basicPredicates;
     }
 
     private List<RelevantTradingMetrics> applyPredicates(List<RelevantTradingMetrics> tradingMetrics, List<Predicate<RelevantTradingMetrics>> predicates)
