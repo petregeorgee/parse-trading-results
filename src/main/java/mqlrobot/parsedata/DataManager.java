@@ -6,6 +6,7 @@ import mqlrobot.parsedata.model.RelevantTradingMetrics;
 import mqlrobot.parsedata.model.filter.AdvancedTradingMetricsFilter;
 import mqlrobot.parsedata.model.TradingMetrics;
 import mqlrobot.parsedata.model.filter.BasicTradingMetricsFilter;
+import mqlrobot.parsedata.service.TradingMetricsRepository;
 import mqlrobot.parsedata.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +26,8 @@ public class DataManager
     private AdvancedTradingMetricsFilter advancedFilter;
     @Autowired
     private BasicTradingMetricsFilter basicFilter;
-    @Getter
-    private List<RelevantTradingMetrics> tradingMetricsList = new ArrayList<>();
     @Autowired
-    private Utils utils;
+    private TradingMetricsRepository tradingMetricsRepository;
 
     public void storePositiveTradingMetricsResultsToDiskFromFile(String filePath)
     {
@@ -38,9 +37,9 @@ public class DataManager
         if(basicFilter.isEnabled())
             relevantTradingMetrics = applyPredicates(relevantTradingMetrics, getBasicFilterPredicates());
 
-        tradingMetricsList.addAll(relevantTradingMetrics);
+        tradingMetricsRepository.saveAll(relevantTradingMetrics);
 
-        System.out.println("Importing " + relevantTradingMetrics.size() + " entities from file: " + filePath);
+        System.out.println("Imported " + relevantTradingMetrics.size() + " entities from file: " + filePath);
     }
 
     public void processExcelFiles(String folderPath)
@@ -158,6 +157,7 @@ public class DataManager
 
     public List<RelevantTradingMetrics> getFilteredTradingMetrics()
     {
-        return applyPredicates(tradingMetricsList, getAdvancedFilterPredicates());
+        List<RelevantTradingMetrics> all = (List<RelevantTradingMetrics>) tradingMetricsRepository.findAll();
+        return applyPredicates(all, getAdvancedFilterPredicates());
     }
 }

@@ -1,13 +1,22 @@
 package mqlrobot.parsedata.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class RelevantTradingMetrics
 {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
     @JsonProperty("Result")
     private double result;
 
@@ -37,6 +46,24 @@ public class RelevantTradingMetrics
 
     @JsonProperty("Max_Open_Close_All")
     private boolean maxOpenCloseAll;
+
+    public RelevantTradingMetrics()
+    {
+    }
+
+    public RelevantTradingMetrics(double result, double profit, double equityDdPercentage, double trades, double distBS, double distTpbTps, double volumeValue, double multiplier, double maxOpenPositions, boolean maxOpenCloseAll)
+    {
+        this.result = result;
+        this.profit = profit;
+        this.equityDdPercentage = equityDdPercentage;
+        this.trades = trades;
+        this.distBS = distBS;
+        this.distTpbTps = distTpbTps;
+        this.volumeValue = volumeValue;
+        this.multiplier = multiplier;
+        this.maxOpenPositions = maxOpenPositions;
+        this.maxOpenCloseAll = maxOpenCloseAll;
+    }
 
     @Override
     public String toString()
