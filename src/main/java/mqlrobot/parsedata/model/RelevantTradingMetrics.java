@@ -47,6 +47,9 @@ public class RelevantTradingMetrics
     @JsonProperty("Max_Open_Close_All")
     private boolean maxOpenCloseAll;
 
+    private String period;
+    private String tradingPair;
+
     public RelevantTradingMetrics()
     {
     }

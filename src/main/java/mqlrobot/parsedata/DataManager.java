@@ -1,13 +1,12 @@
 package mqlrobot.parsedata;
 
-import lombok.Getter;
 import mqlrobot.parsedata.excel.ExcelReader;
 import mqlrobot.parsedata.model.RelevantTradingMetrics;
+import mqlrobot.parsedata.model.RunArguments;
 import mqlrobot.parsedata.model.filter.AdvancedTradingMetricsFilter;
 import mqlrobot.parsedata.model.TradingMetrics;
 import mqlrobot.parsedata.model.filter.BasicTradingMetricsFilter;
 import mqlrobot.parsedata.service.TradingMetricsRepository;
-import mqlrobot.parsedata.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,13 +32,29 @@ public class DataManager
     {
         List<TradingMetrics> tradingMetrics = excelReader.getTradingMetricsFromFile(filePath);
         List<RelevantTradingMetrics> relevantTradingMetrics = tradingMetrics.stream().map(TradingMetrics::toRelevantTradingMetrics).toList();
+        relevantTradingMetrics.forEach(relevantTradingMetrics1 ->
+        {
+            relevantTradingMetrics1.setTradingPair(getRunArgument(filePath, RunArguments.TRADING_PAIR));
+            relevantTradingMetrics1.setPeriod(getRunArgument(filePath, RunArguments.PERIOD));
+        });
 
-        if(basicFilter.isEnabled())
+        if (basicFilter.isEnabled())
             relevantTradingMetrics = applyPredicates(relevantTradingMetrics, getBasicFilterPredicates());
 
         tradingMetricsRepository.saveAll(relevantTradingMetrics);
 
         System.out.println("Imported " + relevantTradingMetrics.size() + " entities from file: " + filePath);
+    }
+
+    private String getRunArgument(String filePath, RunArguments runArguments)
+    {
+        String[] parts = filePath.replace(".xlsx", "").split("\\^");
+        if (parts.length >= 2)
+            if (runArguments.equals(RunArguments.PERIOD))
+                return parts[parts.length - 2];
+            else if (runArguments.equals(RunArguments.TRADING_PAIR))
+                return parts[parts.length - 1];
+        return "";
     }
 
     public void processExcelFiles(String folderPath)
@@ -59,7 +74,7 @@ public class DataManager
             return;
         }
 
-        System.out.println("Start scanning the folder: "+ folderPath);
+        System.out.println("Start scanning the folder: " + folderPath);
 
         for (File file : files)
         {
