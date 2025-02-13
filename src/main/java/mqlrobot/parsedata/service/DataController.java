@@ -1,10 +1,9 @@
 package mqlrobot.parsedata.service;
 
 import mqlrobot.parsedata.DataManager;
-import mqlrobot.parsedata.excel.ExcelReader;
+import mqlrobot.parsedata.RoboStaticDataManager;
 import mqlrobot.parsedata.model.RelevantTradingMetrics;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +18,8 @@ public class DataController
 
     @Autowired
     private DataManager dataManager;
+    @Autowired
+    private RoboStaticDataManager dataManagerForRoboStatic;
 
     @PostMapping("/newExcel")
     public void storeDataFromNewExcelFile(@RequestParam("file") MultipartFile multipartFile) throws IOException
@@ -40,6 +41,14 @@ public class DataController
         String path = Paths.get("tmp").toAbsolutePath().toString();
 
         dataManager.processExcelFiles(path);
+    }
+
+    @PostMapping("/roboStaticFromFolder")
+    public void storeDataRoboStaticFromFolder() throws IOException
+    {
+        String path = Paths.get("tmp").toAbsolutePath().toString();
+
+        dataManagerForRoboStatic.processExcelFiles(path);
     }
 
     @GetMapping("/filteredData")

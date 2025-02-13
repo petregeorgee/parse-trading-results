@@ -3,5 +3,6 @@ package mqlrobot.parsedata.model;
 public enum RunArguments
 {
     PERIOD,
-    TRADING_PAIR
+    TRADING_PAIR,
+    TIMEFRAME
 }

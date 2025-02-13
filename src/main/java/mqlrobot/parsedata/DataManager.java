@@ -22,9 +22,9 @@ public class DataManager
     @Autowired
     private ExcelReader excelReader;
     @Autowired
-    private AdvancedTradingMetricsFilter advancedFilter;
+    protected AdvancedTradingMetricsFilter advancedFilter;
     @Autowired
-    private BasicTradingMetricsFilter basicFilter;
+    protected BasicTradingMetricsFilter basicFilter;
     @Autowired
     private TradingMetricsRepository tradingMetricsRepository;
 
@@ -46,7 +46,7 @@ public class DataManager
         System.out.println("Imported " + relevantTradingMetrics.size() + " entities from file: " + filePath);
     }
 
-    private String getRunArgument(String filePath, RunArguments runArguments)
+    String getRunArgument(String filePath, RunArguments runArguments)
     {
         String[] parts = filePath.replace(".xlsx", "").split("\\^");
         if (parts.length >= 2)
@@ -147,7 +147,7 @@ public class DataManager
     }
 
 
-    private List<Predicate<RelevantTradingMetrics>> getBasicFilterPredicates()
+    List<Predicate<RelevantTradingMetrics>> getBasicFilterPredicates()
     {
         List<Predicate<RelevantTradingMetrics>> basicPredicates = new ArrayList<>();
 
@@ -160,7 +160,7 @@ public class DataManager
         return basicPredicates;
     }
 
-    private List<RelevantTradingMetrics> applyPredicates(List<RelevantTradingMetrics> tradingMetrics, List<Predicate<RelevantTradingMetrics>> predicates)
+    List<RelevantTradingMetrics> applyPredicates(List<RelevantTradingMetrics> tradingMetrics, List<Predicate<RelevantTradingMetrics>> predicates)
     {
         for (Predicate<RelevantTradingMetrics> predicate : predicates)
         {

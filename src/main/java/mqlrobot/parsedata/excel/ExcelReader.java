@@ -1,7 +1,7 @@
 package mqlrobot.parsedata.excel;
 
 import mqlrobot.parsedata.model.TradingMetrics;
-import mqlrobot.parsedata.utils.Utils;
+ import mqlrobot.parsedata.utils.Utils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -11,19 +11,14 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class ExcelReader {
 
     @Autowired
-    private Utils utils;
+    protected Utils utils;
 
     public List<TradingMetrics> getTradingMetricsFromFile(String filePath) {
         List<TradingMetrics> tradingMetricsList = new ArrayList<>();
